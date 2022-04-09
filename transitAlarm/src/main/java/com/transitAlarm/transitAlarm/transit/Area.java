@@ -2,6 +2,7 @@ package com.transitAlarm.transitAlarm.transit;
 
 public enum Area {
     SEOUL,
+    HEAD,
     GYEONGGI,
     BUSAN,
     DAEGU,

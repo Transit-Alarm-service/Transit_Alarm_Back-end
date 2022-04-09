@@ -39,6 +39,7 @@ public class Transit {
     @Enumerated(EnumType.STRING)
     private Area area;
 
+
     /**
      * 기점, 종점은 쿼리로
      */
