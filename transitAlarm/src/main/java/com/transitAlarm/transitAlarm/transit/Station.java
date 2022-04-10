@@ -22,7 +22,7 @@ public class Station {
     /**
      * station unique number
      */
-    @Column(name = "station_uniqueNum", unique = true)
+    @Column(name = "station_unique_num", unique = true)
     private Long uniqueNumber;
 
     /**
