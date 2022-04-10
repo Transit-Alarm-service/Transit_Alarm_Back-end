@@ -17,6 +17,12 @@ public class Transit {
     private Long Id;
 
     /**
+     * station Unique number
+     */
+    @Column(name = "transit_unique_num", unique = true)
+    private Long uniqueNumber;
+
+    /**
      * transit type
      * ["BUS", "SUBWAY", "TRAIN", "AIRPORT_BUS"]
      */
@@ -71,8 +77,9 @@ public class Transit {
     private Boolean round;
 
 
-    public Transit(Type type, String name, Area area, LocalTime startTime,
+    private Transit(Long uniqueNumber, Type type, String name, Area area, LocalTime startTime,
                    LocalTime endTime, Integer interval, Boolean round) {
+        this.uniqueNumber = uniqueNumber;
         this.type = type;
         this.name = name;
         this.area = area;
@@ -89,12 +96,12 @@ public class Transit {
          */
         LocalTime startTime =
                 LocalTime.of(Integer.parseInt(dto.getStartTime().substring(0, 2)),
-                        Integer.parseInt(dto.getStartTime().substring(2)));
+                        Integer.parseInt(dto.getStartTime().substring(3)));
         LocalTime endTime =
                 LocalTime.of(Integer.parseInt(dto.getEndTime().substring(0, 2)),
-                        Integer.parseInt(dto.getEndTime().substring(2)));
+                        Integer.parseInt(dto.getEndTime().substring(3)));
 
-        return new Transit(dto.getType(), dto.getName(), dto.getArea(),
+        return new Transit(dto.getUniqueNum(), dto.getType(), dto.getName(), dto.getArea(),
                 startTime, endTime, dto.getInterval(), dto.getRound());
 
     }

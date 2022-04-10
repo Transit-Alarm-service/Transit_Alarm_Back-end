@@ -2,6 +2,7 @@ package com.transitAlarm.transitAlarm.transit.dto;
 
 import com.transitAlarm.transitAlarm.transit.Area;
 import com.transitAlarm.transitAlarm.transit.Type;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
@@ -9,7 +10,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 @Data
+@AllArgsConstructor
 public class TransitDTO {
+    @NotNull
+    private Long uniqueNum;
     @NotNull
     private Type type;
     @NotBlank

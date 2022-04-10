@@ -1,5 +1,9 @@
 package com.transitAlarm.transitAlarm.transit.test_data;
 
+import com.transitAlarm.transitAlarm.transit.TransitStation;
+import com.transitAlarm.transitAlarm.transit.repository.StationRepository;
+import com.transitAlarm.transitAlarm.transit.repository.TransitRepository;
+import com.transitAlarm.transitAlarm.transit.repository.TransitStationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
@@ -31,6 +35,10 @@ public class TestData {
         static class InitMemberService {
             @PersistenceContext
             private EntityManager em;
+
+            private final TransitRepository transitRepository;
+            private final StationRepository stationRepository;
+            private final TransitStationRepository transitStationRepository;
 
 
             @Transactional

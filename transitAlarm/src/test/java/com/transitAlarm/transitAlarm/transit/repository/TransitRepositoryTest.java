@@ -3,6 +3,7 @@ package com.transitAlarm.transitAlarm.transit.repository;
 import com.transitAlarm.transitAlarm.transit.Area;
 import com.transitAlarm.transitAlarm.transit.Transit;
 import com.transitAlarm.transitAlarm.transit.Type;
+import com.transitAlarm.transitAlarm.transit.dto.TransitDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,8 +14,10 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.OPTIONAL;
 
 
 @SpringBootTest
@@ -33,13 +36,11 @@ class TransitRepositoryTest {
         /**
         *  given : given condition
         */
-        Transit transit1 = new Transit(Type.BUS, "9200", Area.INCHEON,
-                LocalTime.of(9, 0), LocalTime.of(22, 0),
-                60, true);
-        Transit transit2 = new Transit(Type.BUS, "9200", Area.GYEONGGI,
-                LocalTime.of(8, 0), LocalTime.of(23, 0),
-                60, false);
 
+        Transit transit1 = Transit.createTransit(new TransitDTO(22333L, Type.BUS, "9200", Area.INCHEON,
+                "09:00", "22:00", 60, true));
+        Transit transit2 = Transit.createTransit(new TransitDTO(22345L, Type.BUS, "9200", Area.GYEONGGI,
+                "08:00", "23:00", 30, false));
 
 
         /**
@@ -51,16 +52,18 @@ class TransitRepositoryTest {
         em.flush();
         em.clear();
 
-        List<Transit> findTransit = transitRepository.findAllByName("9200");
+        List<Transit> findTransitList = transitRepository.findAllByName("9200");
+        Optional<Transit> findTransit = transitRepository.findByUniqueNumber(22333L);
 
 
         /**
         *  then : result
         */
-        assertThat(findTransit.size()).isEqualTo(2);
-        Transit result = findTransit.get(0);
+        assertThat(findTransitList.size()).isEqualTo(2);
+        Transit result = findTransitList.get(0);
 
         assertThat(result.getName()).isEqualTo("9200");
+        assertThat(findTransit.get().getName()).isEqualTo("9200");
     }
 
 }

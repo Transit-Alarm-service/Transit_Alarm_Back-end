@@ -1,8 +1,13 @@
 package com.transitAlarm.transitAlarm.transit;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.*;
 
 @Entity
+@Getter
+@NoArgsConstructor
 public class TransitStation {
 
     @Id
@@ -32,6 +37,7 @@ public class TransitStation {
      * ["ASCENDING", "DESCENDING"]
      */
     @Column(name = "transit_station_dir")
+    @Enumerated(EnumType.STRING)
     private Direction direction;
 
     /**
@@ -39,4 +45,16 @@ public class TransitStation {
      */
     @Column(name = "transit_station_isRound")
     private Boolean round;
+
+    public TransitStation(Transit transit, Station station, Integer sequence, Direction direction, Boolean round) {
+        this.transit = transit;
+        this.station = station;
+        this.sequence = sequence;
+        this.direction = direction;
+        this.round = round;
+    }
+
+
+
+
 }
