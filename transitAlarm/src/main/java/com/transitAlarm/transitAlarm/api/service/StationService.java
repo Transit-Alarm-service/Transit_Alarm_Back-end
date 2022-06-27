@@ -1,11 +1,12 @@
 package com.transitAlarm.transitAlarm.api.service;
 
-import com.transitAlarm.transitAlarm.api.dto.PositionDTO;
+import com.transitAlarm.transitAlarm.api.dto.BusRouteDTO;
+import com.transitAlarm.transitAlarm.api.dto.StationBusInfoDTO;
 import com.transitAlarm.transitAlarm.api.dto.StationDTO;
-import com.transitAlarm.transitAlarm.api.response.NearByStationRes;
 import com.transitAlarm.transitAlarm.common.ExternalApiParser;
 import com.transitAlarm.transitAlarm.common.base.BaseException;
 import com.transitAlarm.transitAlarm.common.base.BaseResponseStatus;
+import jdk.dynalink.linker.LinkerServices;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
@@ -13,31 +14,24 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *  위도, 경도를 기준으로 반경 500m 내의 정류소 return
- */
-
-
 @Service
-@Slf4j
 @RequiredArgsConstructor
-public class NearByStationService {
+@Slf4j
+public class StationService {
 
     @Value("${nearby-station-api-key}")
     private String apiKey;
 
-    public List<StationDTO> callApi(PositionDTO dto) throws BaseException {
+    public List<BusRouteDTO> getAllRoutesByStation(StationBusInfoDTO dto) throws BaseException {
+        List<BusRouteDTO> result = new ArrayList<>();
 
-        List<StationDTO> result = new ArrayList<>();
-
-        String url = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getCrdntPrxmtSttnList" +
+        String url = "http://apis.data.go.kr/1613000/BusSttnInfoInqireService/getSttnThrghRouteList" +
                 "?serviceKey=" + apiKey +
-                "&gpsLati=" + dto.getLatitude() +
-                "&gpsLong=" + dto.getLongitude() +
+                "&nodeid=" + dto.getStationId() +
+                "&cityCode=" + dto.getCityCode() +
                 "&_type=json";
 
         JSONObject jsonResult = (JSONObject) ExternalApiParser.GetExternalApi(url, "GET").get("response");
@@ -51,7 +45,7 @@ public class NearByStationService {
             throw new BaseException(BaseResponseStatus.EXTERNAL_API_ERROR);
         }
 
-        // 역 정보
+        // 노선 정보
         try {
             String emptyResult = (String) ((JSONObject) jsonResult.get("body")).get("items");
             if (emptyResult.equals("")) {
@@ -59,27 +53,27 @@ public class NearByStationService {
             }
         } catch (Exception ignored) { }
 
-        JSONArray stationList = (JSONArray) ((JSONObject) ((JSONObject) jsonResult.get("body")).get("items")).get("item");
-        for (Object object : stationList) {
-            JSONObject currentObject = (JSONObject) object;
+        JSONArray routeList = (JSONArray) ((JSONObject) ((JSONObject) jsonResult.get("body")).get("items")).get("item");
+        for (Object obj : routeList) {
+            JSONObject currentObj = (JSONObject) obj;
 
-            StationDTO stationDTO = new StationDTO();
+            BusRouteDTO busRouteDTO = new BusRouteDTO();
+            busRouteDTO.setRouteId((String) currentObj.get("routeid"));
+            busRouteDTO.setBusName(String.valueOf(currentObj.get("routeno")));
+            busRouteDTO.setBusType((String) currentObj.get("routetp"));
+            busRouteDTO.setEndPoint((String) currentObj.get("endnodenm"));
+            busRouteDTO.setStartingPoint((String) currentObj.get("startnodenm"));
+            result.add(busRouteDTO);
 
-            // 1. city code
-            stationDTO.setCityCode((Long) currentObject.get("citycode"));
-            // 2. latitude
-            stationDTO.setLatitude((Double) currentObject.get("gpslati"));
-            // 3. longitude
-            stationDTO.setLongitude((Double) currentObject.get("gpslong"));
-            // 4. station id
-            stationDTO.setStationId((String) currentObject.get("nodeid"));
-            // 5. station name
-            stationDTO.setStationName((String) currentObject.get("nodenm"));
-            result.add(stationDTO);
         }
-
         return result;
 
     }
+
+
+
+
+
+
 
 }

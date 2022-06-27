@@ -4,9 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/*@Data
+@Data
 @NoArgsConstructor
-@AllArgsConstructor*/
-public class NearByStationDTO {
+@AllArgsConstructor
+public class StationBusInfoDTO {
+
+    private Long cityCode;
+    private String stationId;
 
 }
