@@ -54,6 +54,13 @@ public class NearByStationService {
         }
 
         // 역 정보
+        try {
+            String emptyResult = (String) ((JSONObject) jsonResult.get("body")).get("items");
+            if (emptyResult.equals("")) {
+                return result;
+            }
+        } catch (Exception ignored) { }
+
         JSONArray stationList = (JSONArray) ((JSONObject) ((JSONObject) jsonResult.get("body")).get("items")).get("item");
         for (Object object : stationList) {
             JSONObject currentObject = (JSONObject) object;
