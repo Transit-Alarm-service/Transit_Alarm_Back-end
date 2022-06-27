@@ -69,14 +69,11 @@ public enum BaseResponseStatus {
     PASSWORD_DECRYPTION_ERROR(false, 4012, HttpStatus.INTERNAL_SERVER_ERROR,"비밀번호 복호화에 실패하였습니다."),
 
 
-    SMS_SEND_ERROR(false, 4020, HttpStatus.INTERNAL_SERVER_ERROR,"SMS 전송에 실패했습니다."),
 
     FILE_SAVE_ERROR(false, 5000, HttpStatus.INTERNAL_SERVER_ERROR,"파일 저장에 실패했습니다."),
     FILE_DOWNLOAD_ERROR(false, 5001, HttpStatus.INTERNAL_SERVER_ERROR,"파일 다운로드에 실패했습니다."),
 
 
-
-    YOUTUBE_API_ERROR(false, 5010, HttpStatus.INTERNAL_SERVER_ERROR,"유효하지 않은 채널 ID입니다."),
     EXTERNAL_API_ERROR(false, 5011, HttpStatus.INTERNAL_SERVER_ERROR,"외부 API 통신에 실패했습니다.");
 
 

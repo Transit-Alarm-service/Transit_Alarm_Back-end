@@ -4,12 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
-@Data
-@AllArgsConstructor
+/*@Data
 @NoArgsConstructor
-public class PositionDTO {
+@AllArgsConstructor*/
+public class NearByStationDTO {
 
-    private Double latitude;
-    private Double longitude;
 }
