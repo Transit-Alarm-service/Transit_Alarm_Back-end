@@ -1,4 +1,4 @@
-package com.transitAlarm.transitAlarm.api;
+package com.transitAlarm.transitAlarm.api.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

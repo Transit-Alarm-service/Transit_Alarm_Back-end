@@ -1,4 +1,4 @@
-package com.transitAlarm.transitAlarm.api;
+package com.transitAlarm.transitAlarm.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

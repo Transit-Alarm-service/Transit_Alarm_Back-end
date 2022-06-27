@@ -26,6 +26,9 @@ out/
 !**/src/main/**/out/
 !**/src/test/**/out/
 
+### API Key properties ###
+resources/application-API-KEY.properties
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
